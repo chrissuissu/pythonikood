@@ -1,4 +1,5 @@
 import pygame
+from fighters import Fighter  # Assuming Fighter class is defined in fighters.py
 
 pygame.init()
 
@@ -7,58 +8,29 @@ SCREEN_HEIGHT = 1080
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("jkPf")
-# load background image
+
+# Load background image
 bg_image = pygame.image.load('assets/background.jpg').convert_alpha()
 
+# Load sprite sheet for the fighter
+sprite_sheet = pygame.image.load("assets/melee.png").convert_alpha()
 
-class Background(pygame.sprite.Sprite):
-    def init(self, image_file, location):
-        pygame.sprite.Sprite.init(self)  # call Sprite initializer
-        self.image = pygame.image.load(image_file)
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = location
+# Create an instance of the Fighter class
+player1 = Fighter(1, 100, 500, False, (80, 2, (0, 0)), sprite_sheet,
+                  [4, 4, 4, 4, 4, 4, 4], None)  # Assuming sound is not provided
 
-
-# function for drawing background
-def draw_bg():
-    screen.blit(bg_image, (0, 0))
-
-
-# game loop
+# Game loop
 run = True
 while run:
-    # draw background
-    draw_bg()
-
-    # event handler
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
 
-    # uptade display
+    player1.update()  # Update player state
+
+    screen.blit(bg_image, (0, 0))  # Draw background
+    screen.blit(player1.image, (player1.rect.x, player1.rect.y))  # Draw player
+
     pygame.display.update()
-
-
-def draw_bg():
-    pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-
-
-screen.blit(bg_image, (0, 0))
-
-run = True
-while run:
-    # draw background
-    def draw_bg():
-        screen.blit(bg_image, (0, 0))
-
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
-
-pygame.display.update()
-
-pygame.display.update()
 
 pygame.quit()
